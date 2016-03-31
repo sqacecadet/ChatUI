@@ -90,53 +90,16 @@
                         <div class="panel-body">
 
                             <ul class="media-list">
-
                                 <li class="media" ng-repeat="name in userList">
                                     <div class="media-body"  >
-
                                         <div class="media">
                                             <a class="pull-left" href="#">
                                                 <img class="media-object img-circle" style="max-height : 40px ;" src="@routes.Assets.at("/images/favicon.png")" />
                                             </a>
-
-                                            <div class="media-body">
+                                            <div class="media-body" >
                                                 <h5>{{name}}</h5>
-                                                <small class="text-muted">Active From 3 hours</small>
-                                            </div>
-                                        </div>
+                                                <small class="text-muted">Ativo a  </small> <timer interval="1000">{{seconds}} second{{secondsS}}.</timer>
 
-                                    </div>
-                                </li>
-
-                                <li class="media">
-
-                                    <div class="media-body">
-
-                                        <div class="media">
-                                            <a class="pull-left" href="#">
-                                                <img class="media-object img-circle" style="max-height : 40px ;" src="@routes.Assets.at("/images/favicon.png")" />
-                                            </a>
-                                            <div class="media-body" >
-                                                <h5>Alex Deo | User </h5>
-
-                                                <small class="text-muted">Active From 3 hours</small>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </li>
-
-                                <li class="media">
-
-                                    <div class="media-body">
-
-                                        <div class="media">
-                                            <a class="pull-left" href="#">
-                                                <img class="media-object img-circle" style="max-height : 40px ;" src="@routes.Assets.at("/images/favicon.png")" />
-                                            </a>
-                                            <div class="media-body" >
-                                                <h5>Jhon Rexa | User </h5>
-                                                <small class="text-muted">Active From 3 hours</small>
                                             </div>
                                         </div>
                                     </div>

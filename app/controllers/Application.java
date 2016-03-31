@@ -1,7 +1,6 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import play.Logger;
 import play.libs.EventSource;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -40,9 +39,12 @@ public class Application extends Controller {
         String room  = msg.findPath("room").textValue();
 
         if(socketsPerRoom.containsKey(room)) {
-            socketsPerRoom.get(room).stream().forEach(es -> es.send(EventSource.Event.event(msg)));
+            socketsPerRoom.get(room).stream().forEach(
+                    es -> es.send(EventSource.Event.event(msg))
+            );
         }
-    }
+
+        }
 
     /**
      * Controller action for POSTing chat messages
@@ -52,23 +54,26 @@ public class Application extends Controller {
         return ok();
     }
 
+
     public static Result UserList(String user) {
-      return ok(user);
+        sendEvent(request().body().asJson());
+        return ok();
     }
 
-    public static Result chatFeed(String room) {
-        String remoteAddress = request().remoteAddress();
 
-        Logger.info(remoteAddress + " - SSE conntected");
+    public static Result chatFeed(String room, String user) {
+        String remoteAddress = request().remoteAddress();
 
         return ok(new EventSource() {
             @Override
             public void onConnected() {
                 EventSource currentSocket = this;
 
-                this.onDisconnected(() -> {
+                socketsPerRoom.get(user).stream().forEach(
+                        es -> es.send(EventSource.Event.event(user))
+                );
 
-                    Logger.info(remoteAddress + " - SSE disconntected");
+                this.onDisconnected(() -> {
 
                     socketsPerRoom.compute(room, (key, value) -> {
                         if(value.contains(currentSocket))
@@ -85,7 +90,8 @@ public class Application extends Controller {
                         }};
                     }
                     else
-                        value.add(currentSocket); return value;
+                        value.add(currentSocket);
+                    return value;
                 });
             }
         });

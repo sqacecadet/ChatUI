@@ -64,9 +64,10 @@ angular.module('sseChat.controllers', ['sseChat.services']).controller('ChatCtrl
             });
         };
 
+    /** adiciona o usuario no array*/
     $scope.addUser = function (user) {
         $scope.$apply(function () {
-            $scope.user.push(JSON.parse(user.data));
+            $scope.userList.push(JSON.parse(user.name));
         });
     };
 
@@ -74,8 +75,7 @@ angular.module('sseChat.controllers', ['sseChat.services']).controller('ChatCtrl
         $scope.listen = function () {
             $scope.chatFeed = new EventSource("/chatFeed/" + $scope.currentRoom.value);
             $scope.chatFeed.addEventListener("message", $scope.addMsg, false);
-            
-            $scope.userList = 
+            $scope.chatFeed.addEventListener("user", $scope.addUser, false);
         };
 
     function UserInfoCtrl($scope, auth) {
